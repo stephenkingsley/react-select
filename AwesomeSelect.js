@@ -24,7 +24,7 @@ export default class AwesomeSelect extends Component {
       width: nextProps.width,
       height: nextProps.height,
       disabled: nextProps.value.length > 0 ? nextProps.disabled : true,
-      inputValue: nextProps.refrsh ? '' : this.state.inputValue
+      inputValue: ''
     });
   }
 
@@ -218,5 +218,4 @@ AwesomeSelect.propTypes = {
   width: React.PropTypes.number,
   height: React.PropTypes.number,
   disabled: React.PropTypes.bool,
-  refrsh: React.PropTypes.bool,
 }
