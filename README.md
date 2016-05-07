@@ -24,7 +24,6 @@
  ```
 
 
-
   - `change`: `必选`, 一定是`Function`。两个参数，`value`代表是所选的那个对象，`index`代表所选的在数组的位置.
 
   ```javascript
@@ -32,7 +31,7 @@
    function chnage(value, index)
 
   ```
-
+  
 
  - `width`: `可选`, 一定是`Num`
 
