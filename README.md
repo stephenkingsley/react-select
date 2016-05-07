@@ -33,12 +33,12 @@
   ```
   
 
- - `width`: `可选`, 一定是`Num`
-
- - `height`: `可选`, 一定是`Num`
-
- - `disabled`: `可选`, 一定是`bool`
-
- - `bottomLabel`: `必选`, 一定是`String`。底部的那个显示文字。
-
- - `handleClose`: 一定是`Function`。 options隐藏的回调事件。
+  - `width`: `可选`, 一定是`Num`
+ 
+  - `height`: `可选`, 一定是`Num`
+ 
+  - `disabled`: `可选`, 一定是`bool`
+ 
+  - `bottomLabel`: `必选`, 一定是`String`。底部的那个显示文字。
+ 
+  - `handleClose`: 一定是`Function`。 options隐藏的回调事件。
