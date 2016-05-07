@@ -8,7 +8,6 @@
    width={200}
    height={50}
    value={arr}
-   refrsh={true}
    change={(value, index) => {console.log('--- change', value, index)}}
    bottomLabel="共有几个呀" />
 
@@ -39,8 +38,6 @@
  - `height`: `可选`, 一定是`Num`
 
  - `disabled`: `可选`, 一定是`bool`
-
- - `refrsh`: `可选`, 一定是`bool`
 
  - `bottomLabel`: `必选`, 一定是`String`。底部的那个显示文字。
 
