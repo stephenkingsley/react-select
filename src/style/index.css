@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+}
+
+.icon {
+  margin: 15px 4px 15px -16px;
+  cursor: pointer;
+}
+
+.upIcon {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 10px solid gray;
+}
+
+.downIcon {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 10px solid gray;
+}
+
+.optionContainer {
+  position: absolute;
+  z-index: 2;
+  background: #FFFFFF;
+  border: 1px solid #00bcd4;
+  border-top: 0;
+  width: 210px;
+  border-radius: 0 0 3px 3px;
+  cursor: pointer;
+}
+
+.optionBody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.option {
+  padding: 4px 5px;
+  height: 30px;
+  line-height: 30px;
+  border-bottom: 1px solid #00bcd4;
+}
+
+.option:hover {
+  background: #4DD0E1;
+  color: #FFFFFF;
+}
+
+.footerOption {
+  margin-top: 1px;
+  padding: 4px 5px;
+  height: 30px;
+  line-height: 30px;
+  background: #00bcd4;
+  color: #FFFFFF;
+}

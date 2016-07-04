@@ -14,7 +14,7 @@ export default class AwesomeSelect extends Component {
       copyValue: props.value,
       bottomLabel: props.bottomLabel,
       disabled: props.disabled
-    }
+    };
   }
 
   componentWillReceiveProps(nextProps) {
@@ -29,27 +29,28 @@ export default class AwesomeSelect extends Component {
   }
 
   handleShowTheOptions() {
-    let {value} = this.props;
-    let {disabled} = this.state;
-    if(disabled) {
+    const { value } = this.props;
+    const { disabled } = this.state;
+    if (disabled) {
       return;
     }
-    if(value.length > 0) {
+    if (value.length > 0) {
       this.setState({
         showTheOptions: true
-      })
+      });
     }
   }
 
-  blue(e) {
-    let {banBlur} = this.state;
-    if(!banBlur) {
+  blue() {
+    const { banBlur } = this.state;
+    if (!banBlur) {
       this.setState({
         showTheOptions: false
-      })
+      });
     }
+
     if(this.props.handleClose) {
-        this.props.handleClose();
+      this.props.handleClose();
     }
   }
 
@@ -77,43 +78,44 @@ export default class AwesomeSelect extends Component {
   mouseEnterOptions() {
     this.setState({
       banBlur: true
-    })
+    });
   }
 
   // 鼠标离开options的时候，打开焦点事件
   mouseLeaveOptions() {
     this.setState({
       banBlur: false
-    })
+    });
   }
 
   // 搜索功能
   handleChangeInput(e) {
-    let {value, copyValue} = this.state;
-    let inputValue = e.target.value;
-    let filterValue = copyValue.filter( element => {
-      return (element.label).toLowerCase().match(inputValue.toLowerCase()) !== null
+    const { copyValue } = this.state;
+    const inputValue = e.target.value;
+    let filterValue = copyValue.filter(element => {
+      return (element.label).toLowerCase().match(inputValue.toLowerCase()) !== null;
     });
-    if(inputValue === '') {
+    if (inputValue === '') {
       filterValue = copyValue;
     }
     this.setState({
       inputValue,
       value: filterValue
-    })
+    });
   }
 
   // 渲染text
   rendetSelect() {
-    let {width, height} = this.props;
-    let {inputValue, disabled} = this.state;
+    const { width } = this.props;
+    let { inputValue, disabled } = this.state;
     return (
-      <input type="text"
+      <input
+        type="text"
         className={cx({
           [style.label]: true,
           [style.disableLabel]: disabled
         })}
-        style={{width: width ? (width - 20) + 'px' : '280px'}}
+        style={{ width: width ? `${(width - 20)}px` : '280px' }}
         placeholder='请选择'
         value={inputValue}
         disabled={disabled}
