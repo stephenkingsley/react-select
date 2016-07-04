@@ -1,6 +1,8 @@
 # AWESOMESELECT
 
 This is a select component, provide `hot search`, show `the number of items`. It is simple to use.
+<br />
+[`demo`](https://stephenkingsley.github.io/)
 
 ## use
 
@@ -60,3 +62,10 @@ const data = [{
 ### onChange(value, name)
 
 has two parameters, the `value` is the item's value that your choose, and the `name` also is what your choose.
+
+## localhost demo
+
+    git clone https://github.com/stephenkingsley/react-select.git
+    cd react-select
+    npm install
+    npm start
