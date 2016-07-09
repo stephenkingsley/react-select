@@ -90,7 +90,7 @@ export default class App extends Component {
           {`selected: name: ${singleChoose.name} value: ${singleChoose.value}`}
           </div>
         </div>
-        single select
+        MultiSelect
         <div style={{ margin: `10px 5px` }}>
           <AwesomeSelect
             data={this.state.data}

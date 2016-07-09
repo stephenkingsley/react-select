@@ -1,4 +1,4 @@
-# AWESOMESELECT [https://stephenkingsley.github.io/](https://stephenkingsley.github.io/)
+# AWESOMESELECT
 
 This is a select component, provide `hot search`, show `the number of items`. It is simple to use.
 <br />
