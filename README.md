@@ -3,6 +3,8 @@
 This is a select component, provide `hot search`, show `the number of items`. It is simple to use.
 <br />
 <font size="40" color="red">[`live demo`](https://stephenkingsley.github.io/)</font>
+<br />
+<img src="./mult.png" />
 
 ## use
 
@@ -44,6 +46,7 @@ class Select extends React.Component {
   render() {
     return (
       <AwesomeSelect
+        style={{ width: '400px' }}
         data={this.state.data}
         mult
         onChange={(value, name, allChoose) => console.log(`---`, value, name, allChoose)}
@@ -60,6 +63,7 @@ class Select extends React.Component {
 |:------------------|--------------------:|
 |data               |Array(isRequired)    |
 |mult               |Bool(default: false) |
+|style              |object               |
 |onChange           |function(isRequired) |
 
 ### data
@@ -73,6 +77,10 @@ const data = [{
 }];
 
 ```
+
+### mult is MultiSelect,default is false
+
+### style is the select style
 
 ### onChange(value, name, allChoose)
 
