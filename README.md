@@ -1,8 +1,8 @@
-# AWESOMESELECT
+# AWESOMESELECT [https://stephenkingsley.github.io/](https://stephenkingsley.github.io/)
 
 This is a select component, provide `hot search`, show `the number of items`. It is simple to use.
 <br />
-[`demo`](https://stephenkingsley.github.io/)
+<font size="40" color="red">[`live demo`](https://stephenkingsley.github.io/)</font>
 
 ## use
 
@@ -18,14 +18,26 @@ class Select extends React.Component {
   contructor() {
     super();
     this.state = {
-      data: [{
-        name: 'Stephen.Kingsley',
-        value: 1
-      },
-      {
-        name: 'Tom.Kingsley',
-        value: 2
-      }]
+      data: [
+        { name: `China`, value: 1, selected: true },
+        { name: `Australia`, value: 2 },
+        { name: `Austria`, value: 3 },
+        { name: `Belgium`, value: 4 },
+        { name: `Canada`, value: 5 },
+        { name: `Denmark`, value: 6 },
+        { name: `Ecuador`, value: 7 },
+        { name: `Egypt`, value: 8 },
+        { name: `Finland`, value: 9 },
+        { name: `France`, value: 10 },
+        { name: `Georgia`, value: 11 },
+        { name: `Germany`, value: 12 },
+        { name: `Greece`, value: 13 },
+        { name: `Hungary`, value: 14 },
+        { name: `Iceland`, value: 15 },
+        { name: `India`, value: 16, selected: true },
+        { name: `Iran`, value: 17, selected: true },
+        { name: `Italy`, value: 18, selected: true }
+      ]
     };
   }
 
@@ -33,7 +45,8 @@ class Select extends React.Component {
     return (
       <AwesomeSelect
         data={this.state.data}
-        onChange={(value, name) => console.log(`---`, value, name)}
+        mult
+        onChange={(value, name, allChoose) => console.log(`---`, value, name, allChoose)}
       />
     );
   }
@@ -46,6 +59,7 @@ class Select extends React.Component {
 |props              |type                 |
 |:------------------|--------------------:|
 |data               |Array(isRequired)    |
+|mult               |Bool(default: false) |
 |onChange           |function(isRequired) |
 
 ### data
@@ -54,14 +68,25 @@ class Select extends React.Component {
 
 const data = [{
   name: 'Stephen.Kingsley',
-  value: 1
+  value: 1,
+  selected: true
 }];
 
 ```
 
-### onChange(value, name)
+### onChange(value, name, allChoose)
 
-has two parameters, the `value` is the item's value that your choose, and the `name` also is what your choose.
+#### value is the item of value you click
+
+#### name is the item of name you click
+
+#### when `mult = true`. allChoose is what you selected
+
+|params        |type     |
+|:------------ |--------:|
+|value         |string   |
+|name          |string   |
+|allChoose     |object   |
 
 ## localhost demo
 

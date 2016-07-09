@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
+import Option from './Option';
 import './style/index.css';
 
 export default class AwesomeSelect extends Component {
@@ -11,21 +13,89 @@ export default class AwesomeSelect extends Component {
     this.cancelBanBlur = this.cancelBanBlur.bind(this);
     this.chooseItem = this.chooseItem.bind(this);
     this.inputText = this.inputText.bind(this);
+
+    const disposedData = [];
+    let placeholderText;
+    let text;
+    if (props.mult) {
+      let selectedNum = props.data.length;
+      props.data.forEach(ele => {
+        const value = ele;
+        if (!value.selected) {
+          value.selected = false;
+          selectedNum--;
+        }
+        disposedData.push(value);
+      });
+      placeholderText = selectedNum;
+      text = ``;
+    } else {
+      const initSelectIndex = _.findIndex(props.data, { selected: true });
+      props.data.forEach(ele => {
+        const value = ele;
+        value.selected = false;
+        disposedData.push(value);
+      });
+      if (initSelectIndex >= 0) {
+        disposedData[initSelectIndex].selected = true;
+        placeholderText = disposedData[initSelectIndex].name;
+        text = placeholderText;
+      } else {
+        text = ``;
+        placeholderText = ``;
+      }
+    }
+
     this.state = {
-      data: props.data,
-      copyData: props.data,
+      text,
+      placeholderText,
+      data: disposedData,
+      copyData: disposedData,
       open: false,
       banBlur: false,
-      text: ``,
-      style: props.style || {}
+      style: props.style || {},
+      mult: props.mult || false
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    const disposedData = [];
+    let placeholderText;
+    let text;
+    if (nextProps.mult) {
+      let selectedNum = nextProps.data.length;
+      nextProps.data.forEach(ele => {
+        const value = ele;
+        if (!value.selected) {
+          value.selected = false;
+          selectedNum--;
+        }
+        disposedData.push(value);
+      });
+      placeholderText = selectedNum;
+      text = ``;
+    } else {
+      const initSelectIndex = _.findIndex(nextProps.data, { selected: true });
+      nextProps.data.forEach(ele => {
+        const value = ele;
+        value.selected = false;
+        disposedData.push(value);
+      });
+      if (initSelectIndex >= 0) {
+        disposedData[initSelectIndex].selected = true;
+        placeholderText = disposedData[initSelectIndex].name;
+        text = placeholderText;
+      } else {
+        text = ``;
+        placeholderText = ``;
+      }
+    }
+
     this.setState({
-      data: nextProps.data,
-      copyData: nextProps.data,
-      text: ``
+      text,
+      placeholderText,
+      data: disposedData,
+      copyData: disposedData,
     });
   }
 
@@ -55,13 +125,34 @@ export default class AwesomeSelect extends Component {
     }
   }
 
-  chooseItem(event) {
-    const data = event.target.dataset;
-    this.props.onChange(data.value, data.name);
-    this.setState({
-      open: false,
-      text: data.name
-    });
+  chooseItem(chooseItemData) {
+    const { mult, data } = this.state;
+    const optionData = chooseItemData;
+    if (mult) {
+      const tmpData = data;
+      let selectedNum = 0;
+      tmpData[optionData.index].selected = !tmpData[optionData.index].selected;
+      tmpData.forEach(ele => {
+        if (ele.selected) {
+          selectedNum++;
+        }
+      });
+      this.setState({
+        data: tmpData,
+        copyData: tmpData,
+        placeholderText: selectedNum
+      });
+      this.props.onChange(optionData.value, optionData.name, _.filter(tmpData, ele => {
+        return ele.selected === true;
+      }));
+      this.refs.select.focus();
+    } else {
+      this.props.onChange(optionData.value, optionData.name);
+      this.setState({
+        open: false,
+        text: optionData.name
+      });
+    }
   }
 
   banBlur() {
@@ -92,14 +183,14 @@ export default class AwesomeSelect extends Component {
   }
 
   renderOptions() {
-    const { data, style } = this.state;
+    const { data, style, mult } = this.state;
     let optionsWidth = {};
     if (style.width) {
       optionsWidth = Number(style.width.split(`px`)[0]) + 10;
     }
     return (
       <div
-        style={{ width: `${optionsWidth}px` }}
+        style={{ width: `${optionsWidth}px`, minWidth: `210px` }}
         className="optionContainer"
       >
         <div
@@ -109,15 +200,13 @@ export default class AwesomeSelect extends Component {
         >
           {
             data.map((ele, index) => (
-              <div
+              <Option
                 key={index}
-                className="option"
-                data-name={ele.name}
-                data-value={ele.value}
-                onClick={this.chooseItem}
-              >
-                {ele.name}
-              </div>
+                index={index}
+                mult={mult}
+                value={ele}
+                chooseItem={this.chooseItem}
+              />
             ))
           }
         </div>
@@ -127,19 +216,28 @@ export default class AwesomeSelect extends Component {
   }
 
   renderFooter() {
-    const { data } = this.state;
+    const { data, copyData } = this.state;
+    let numOfSelected = 0;
+    copyData.forEach(ele => {
+      if (ele.selected) {
+        numOfSelected++;
+      }
+    });
     return (
       <div className="footerOption">
-        {data.length} items
+        <div>{data.length} items</div>
+        <div>choose {numOfSelected} items</div>
       </div>
     );
   }
 
   render() {
-    const { open, text, style } = this.state;
+    const { open, text, style, placeholderText } = this.state;
     const defaultStyle = {
       width: `200px`,
-      height: `38px`
+      height: `38px`,
+      minWidth: `200px`,
+      minHeight: `38px`
     };
     const container = {
       border: `1px solid #00bcd4`,
@@ -159,6 +257,7 @@ export default class AwesomeSelect extends Component {
           <input
             ref="select"
             type="text"
+            placeholder={`choose ${placeholderText} items`}
             style={containerStyle}
             value={text}
             onFocus={this.onFocus}
@@ -183,5 +282,6 @@ export default class AwesomeSelect extends Component {
 AwesomeSelect.propTypes = {
   data: React.PropTypes.array.isRequired,
   onChange: React.PropTypes.func.isRequired,
-  style: React.PropTypes.object
+  style: React.PropTypes.object,
+  mult: React.PropTypes.bool
 };

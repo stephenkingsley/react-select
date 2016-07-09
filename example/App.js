@@ -1,74 +1,118 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { AwesomeSelect } from '../src/index';
+
 const fakeData = [
-  { name: `hello`, value: 1 },
-  { name: `hi`, value: 2 },
-  { name: `China`, value: 3 },
-  { name: `US`, value: 4 },
-  { name: `UK`, value: 5 },
-  { name: `Janpan`, value: 6 },
-  { name: `Koran`, value: 7 },
-  { name: `Canan`, value: 8 },
-  { name: `hello`, value: 1 },
-  { name: `hi`, value: 2 },
-  { name: `China`, value: 3 },
-  { name: `US`, value: 4 },
-  { name: `UK`, value: 5 },
-  { name: `Janpan`, value: 6 },
-  { name: `Koran`, value: 7 },
-  { name: `Canan`, value: 8 },
-  { name: `hello`, value: 1 },
-  { name: `hi`, value: 2 },
-  { name: `China`, value: 3 },
-  { name: `US`, value: 4 },
-  { name: `UK`, value: 5 },
-  { name: `Janpan`, value: 6 },
-  { name: `Koran`, value: 7 },
-  { name: `Canan`, value: 8 }
+  { name: `China`, value: 1, selected: true },
+  { name: `Australia`, value: 2 },
+  { name: `Austria`, value: 3 },
+  { name: `Belgium`, value: 4 },
+  { name: `Canada`, value: 5 },
+  { name: `Denmark`, value: 6 },
+  { name: `Ecuador`, value: 7 },
+  { name: `Egypt`, value: 8 },
+  { name: `Finland`, value: 9 },
+  { name: `France`, value: 10 },
+  { name: `Georgia`, value: 11 },
+  { name: `Germany`, value: 12 },
+  { name: `Greece`, value: 13 },
+  { name: `Hungary`, value: 14 },
+  { name: `Iceland`, value: 15 },
+  { name: `India`, value: 16, selected: true },
+  { name: `Iran`, value: 17, selected: true },
+  { name: `Italy`, value: 18, selected: true }
 ];
 
-const fakeData2 = [
-  { name: `111`, value: 1 },
-  { name: `222`, value: 2 },
-  { name: `333China`, value: 3 },
-  { name: `444US`, value: 4 },
-  { name: `555UK`, value: 5 },
-  { name: `666Janpan`, value: 6 },
-  { name: `777Koran`, value: 7 },
-  { name: `888Can7an`, value: 8 },
-  { name: `999hello`, value: 1 },
-  { name: `0000hi`, value: 2 },
-  { name: `234China`, value: 3 },
-  { name: `2435US`, value: 4 },
-  { name: `134UK`, value: 5 },
-  { name: `4524Janpan`, value: 6 },
-  { name: `134Koran`, value: 7 },
-  { name: `2452Canan`, value: 8 },
-  { name: `134hello`, value: 1 },
-  { name: `452hi`, value: 2 },
-  { name: `2452China`, value: 3 },
-  { name: `134US`, value: 4 },
-  { name: `1341UK`, value: 5 },
-  { name: `2435Janpan`, value: 6 },
-  { name: `245Koran`, value: 7 },
-  { name: `3456Canan`, value: 8 }
+const fakeDataOfSingle = [
+  { name: `China`, value: 1, selected: true },
+  { name: `Australia`, value: 2 },
+  { name: `Austria`, value: 3 },
+  { name: `Belgium`, value: 4 },
+  { name: `Canada`, value: 5 },
+  { name: `Denmark`, value: 6 },
+  { name: `Ecuador`, value: 7 },
+  { name: `Egypt`, value: 8 },
+  { name: `Finland`, value: 9 },
+  { name: `France`, value: 10 },
+  { name: `Georgia`, value: 11 },
+  { name: `Germany`, value: 12 },
+  { name: `Greece`, value: 13 },
+  { name: `Hungary`, value: 14 },
+  { name: `Iceland`, value: 15 },
+  { name: `India`, value: 16 },
+  { name: `Iran`, value: 17 },
+  { name: `Italy`, value: 18 }
 ];
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      data: fakeData
+      data: fakeData,
+      singleChoose: {
+        name: `China`,
+        value: `1`
+      },
+      selectedData: fakeData,
+      fakeDataOfSingle,
     };
   }
 
+  chooseSingleItem(value, name) {
+    const tmpData = [];
+    fakeDataOfSingle.forEach(ele => {
+      const val = ele;
+      val.selected = false;
+      tmpData.push(val);
+    });
+    const index = _.findIndex(tmpData, { name });
+    tmpData[index].selected = true;
+    this.setState({
+      fakeDataOfSingle: tmpData,
+      singleChoose: {
+        value,
+        name
+      }
+    });
+  }
+
   render() {
+    const { singleChoose, selectedData } = this.state;
     return (
       <div>
-        <AwesomeSelect
-          data={this.state.data}
-          onChange={(value, name) => console.log(`---`, value, name)}
-        />
+        single select
+        <div style={{ margin: `10px 5px` }}>
+          <AwesomeSelect
+            data={fakeDataOfSingle}
+            onChange={(value, name) => this.chooseSingleItem(value, name)}
+          />
+          <div style={{ padding: `10px` }}>
+          {`selected: name: ${singleChoose.name} value: ${singleChoose.value}`}
+          </div>
+        </div>
+        single select
+        <div style={{ margin: `10px 5px` }}>
+          <AwesomeSelect
+            data={this.state.data}
+            mult
+            onChange={(value, name, allChoose) => this.setState({ selectedData: allChoose })}
+          />
+          <div style={{ padding: `10px` }}>selected:</div>
+          {
+            selectedData.map((ele, index) => {
+              if (ele.selected) {
+                return (
+                  <div
+                    style={{ padding: `10px 40px` }}
+                    key={index}
+                  >
+                    {`name:${ele.name} value:${ele.value}`}
+                  </div>
+                );
+              }
+            })
+          }
+        </div>
       </div>
     );
   }

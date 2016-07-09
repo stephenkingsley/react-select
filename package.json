@@ -1,12 +1,14 @@
 {
   "name": "react-awesome-select",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "react select component",
   "bin": "lib/index.js",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "lint": "eslint src",
+    "start": "node server.js",
+    "bulid": "babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,7 @@
   },
   "homepage": "https://github.com/stephenkingsley/react-select#readme",
   "dependencies": {
+    "lodash": "^4.13.1",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   },
