@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src",
     "start": "node server.js",
-    "bulid": "babel src --out-dir lib"
+    "build": "babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
