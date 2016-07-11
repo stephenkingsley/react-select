@@ -4,7 +4,7 @@ This is a select component, provide `hot search`, show `the number of items`. It
 <br />
 <font size="40" color="red">[`live demo`](https://stephenkingsley.github.io/)</font>
 <br />
-<img src="./mult.png" />
+<img src="./react-select.png" />
 
 ## use
 
