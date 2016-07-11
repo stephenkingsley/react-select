@@ -30,8 +30,8 @@
   border: 1px solid #00bcd4;
   border-top: 0;
   width: 210px;
+  min-width: 210px;
   border-radius: 0 0 3px 3px;
-  cursor: pointer;
 }
 
 .optionBody {
@@ -43,7 +43,10 @@
   padding: 4px 5px;
   height: 30px;
   line-height: 30px;
-  border-bottom: 1px solid #00bcd4;
+  border-bottom: 1px solid #74e4f2;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .option:hover {
@@ -52,10 +55,16 @@
 }
 
 .footerOption {
+  display: flex;
+  justify-content: space-between;
   margin-top: 1px;
   padding: 4px 5px;
   height: 30px;
   line-height: 30px;
   background: #00bcd4;
   color: #FFFFFF;
+}
+
+.selectedOption {
+  color: #764343;
 }
