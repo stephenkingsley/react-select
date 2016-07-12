@@ -213,7 +213,7 @@ export default class AwesomeSelect extends Component {
     const { data, style, mult } = this.state;
     let optionsWidth = {};
     if (style.width) {
-      optionsWidth = Number(style.width.split(`px`)[0]) + 10;
+      optionsWidth = Number(style.width.split(`px`)[0]) + 160;
     }
     return (
       <div
