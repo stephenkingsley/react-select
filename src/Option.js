@@ -19,7 +19,7 @@ const Option = (props) => {
       <div>{value.name}</div>
       {
         value.selected && mult &&
-          <div className="selectedOption">✅</div>
+          <div className="selectedOption">✪</div>
       }
     </div>
   );

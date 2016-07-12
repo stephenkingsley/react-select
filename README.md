@@ -1,6 +1,6 @@
 # AWESOMESELECT
 
-This is a select component, provide `hot search`, show `the number of items`. It is simple to use.
+This is a select component, provide `hot search`, `clean`, show `the number of items`. It is simple to use.
 <br />
 <font size="40" color="red">[`live demo`](https://stephenkingsley.github.io/)</font>
 <br />
@@ -65,6 +65,7 @@ class Select extends React.Component {
 |mult               |Bool(default: false) |
 |style              |object               |
 |onChange           |function(isRequired) |
+|onBlur             |function             |
 
 ### data
 

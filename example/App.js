@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { AwesomeSelect } from '../src/index';
 
 const fakeData = [
@@ -48,70 +47,29 @@ export default class App extends Component {
   constructor() {
     super();
     this.state = {
-      data: fakeData,
-      singleChoose: {
-        name: `China`,
-        value: `1`
-      },
-      selectedData: fakeData,
-      fakeDataOfSingle,
+      data: fakeData
     };
   }
 
-  chooseSingleItem(value, name) {
-    const tmpData = [];
-    fakeDataOfSingle.forEach(ele => {
-      const val = ele;
-      val.selected = false;
-      tmpData.push(val);
-    });
-    const index = _.findIndex(tmpData, { name });
-    tmpData[index].selected = true;
-    this.setState({
-      fakeDataOfSingle: tmpData,
-      singleChoose: {
-        value,
-        name
-      }
-    });
-  }
-
   render() {
-    const { singleChoose, selectedData } = this.state;
+    const { singleChoose } = this.state;
     return (
       <div>
         single select
         <div style={{ margin: `10px 5px` }}>
           <AwesomeSelect
             data={fakeDataOfSingle}
-            onChange={(value, name) => this.chooseSingleItem(value, name)}
+            onChange={(value, name) => console.log(value, name)}
           />
-          <div style={{ padding: `10px` }}>
-          {`selected: name: ${singleChoose.name} value: ${singleChoose.value}`}
-          </div>
         </div>
         MultiSelect
         <div style={{ margin: `10px 5px` }}>
           <AwesomeSelect
             data={this.state.data}
             mult
-            onChange={(value, name, allChoose) => this.setState({ selectedData: allChoose })}
+            onBlur={() => console.log('--- blur')}
+            onChange={(value, name, allChoose) => console.log(`${value} ${name}`, allChoose)}
           />
-          <div style={{ padding: `10px` }}>selected:</div>
-          {
-            selectedData.map((ele, index) => {
-              if (ele.selected) {
-                return (
-                  <div
-                    style={{ padding: `10px 40px` }}
-                    key={index}
-                  >
-                    {`name:${ele.name} value:${ele.value}`}
-                  </div>
-                );
-              }
-            })
-          }
         </div>
       </div>
     );

@@ -13,13 +13,15 @@ export default class AwesomeSelect extends Component {
     this.cancelBanBlur = this.cancelBanBlur.bind(this);
     this.chooseItem = this.chooseItem.bind(this);
     this.inputText = this.inputText.bind(this);
+    this.cleanSelect = this.cleanSelect.bind(this);
 
     const disposedData = [];
     let placeholderText;
     let text;
+    const cloneData = _.cloneDeep(props.data);
     if (props.mult) {
       let selectedNum = props.data.length;
-      props.data.forEach(ele => {
+      cloneData.forEach(ele => {
         const value = ele;
         if (!value.selected) {
           value.selected = false;
@@ -31,7 +33,7 @@ export default class AwesomeSelect extends Component {
       text = ``;
     } else {
       const initSelectIndex = _.findIndex(props.data, { selected: true });
-      props.data.forEach(ele => {
+      cloneData.forEach(ele => {
         const value = ele;
         value.selected = false;
         disposedData.push(value);
@@ -62,9 +64,10 @@ export default class AwesomeSelect extends Component {
     const disposedData = [];
     let placeholderText;
     let text;
+    const cloneData = _.cloneDeep(nextProps.data);
     if (nextProps.mult) {
       let selectedNum = nextProps.data.length;
-      nextProps.data.forEach(ele => {
+      cloneData.forEach(ele => {
         const value = ele;
         if (!value.selected) {
           value.selected = false;
@@ -76,7 +79,7 @@ export default class AwesomeSelect extends Component {
       text = ``;
     } else {
       const initSelectIndex = _.findIndex(nextProps.data, { selected: true });
-      nextProps.data.forEach(ele => {
+      cloneData.forEach(ele => {
         const value = ele;
         value.selected = false;
         disposedData.push(value);
@@ -111,6 +114,9 @@ export default class AwesomeSelect extends Component {
       this.setState({
         open: false
       });
+      if (this.props.onBlur) {
+        this.props.onBlur();
+      }
     }
   }
 
@@ -126,20 +132,23 @@ export default class AwesomeSelect extends Component {
   }
 
   chooseItem(chooseItemData) {
-    const { mult, data } = this.state;
+    const { mult, data, copyData } = this.state;
     const optionData = chooseItemData;
     if (mult) {
-      const tmpData = data;
+      const tmpData = _.cloneDeep(data);
+      const tmpCopyData = _.cloneDeep(copyData);
       let selectedNum = 0;
       tmpData[optionData.index].selected = !tmpData[optionData.index].selected;
-      tmpData.forEach(ele => {
+      const index = _.findIndex(tmpCopyData, { name: optionData.name });
+      tmpCopyData[index].selected = !tmpCopyData[index].selected;
+      tmpCopyData.forEach(ele => {
         if (ele.selected) {
           selectedNum++;
         }
       });
       this.setState({
         data: tmpData,
-        copyData: tmpData,
+        copyData: tmpCopyData,
         placeholderText: selectedNum
       });
       this.props.onChange(optionData.value, optionData.name, _.filter(tmpData, ele => {
@@ -182,6 +191,24 @@ export default class AwesomeSelect extends Component {
     });
   }
 
+  cleanSelect() {
+    const { copyData } = this.state;
+    const nextData = _.cloneDeep(copyData);
+    nextData.forEach(ele => {
+      const val = ele;
+      if (val.selected) {
+        val.selected = false;
+      }
+    });
+    this.setState({
+      text: ``,
+      open: false,
+      data: nextData,
+      copyData: nextData,
+      placeholderText: 0
+    });
+  }
+
   renderOptions() {
     const { data, style, mult } = this.state;
     let optionsWidth = {};
@@ -190,7 +217,7 @@ export default class AwesomeSelect extends Component {
     }
     return (
       <div
-        style={{ width: `${optionsWidth}px`, minWidth: `210px` }}
+        style={{ width: `${optionsWidth}px`, minWidth: `310px` }}
         className="optionContainer"
       >
         <div
@@ -232,18 +259,18 @@ export default class AwesomeSelect extends Component {
   }
 
   render() {
-    const { open, text, style, placeholderText } = this.state;
+    const { open, text, style, placeholderText, mult } = this.state;
     const defaultStyle = {
-      width: `200px`,
+      width: `150px`,
       height: `38px`,
-      minWidth: `200px`,
+      minWidth: `150px`,
       minHeight: `38px`
     };
     const container = {
       border: `1px solid #00bcd4`,
       borderRadius: `${open ? `3px 3px 0 0` : `3px`}`,
       outline: 0,
-      padding: `0 5px`
+      padding: `0 155px 0 5px`
     };
     let iconMarginTop;
     if (style.height) {
@@ -257,13 +284,28 @@ export default class AwesomeSelect extends Component {
           <input
             ref="select"
             type="text"
-            placeholder={`choose ${placeholderText} items`}
+            placeholder={mult ? `` : `choose ${placeholderText} items`}
             style={containerStyle}
             value={text}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             onChange={this.inputText}
           />
+          {
+            mult &&
+              <div
+                className="spanText"
+              >
+                <span>choose {placeholderText} items</span>
+              </div>
+          }
+          <div
+            style={{ marginTop: `${iconMarginTop}px` }}
+            className="cleanIcon"
+            onClick={this.cleanSelect}
+          >
+            ×
+          </div>
           <div
             style={{ marginTop: `${iconMarginTop}px` }}
             className={iconStyle}
@@ -281,7 +323,8 @@ export default class AwesomeSelect extends Component {
 
 AwesomeSelect.propTypes = {
   data: React.PropTypes.array.isRequired,
-  onChange: React.PropTypes.func.isRequired,
   style: React.PropTypes.object,
-  mult: React.PropTypes.bool
+  mult: React.PropTypes.bool,
+  onChange: React.PropTypes.func.isRequired,
+  onBlur: React.PropTypes.func,
 };
